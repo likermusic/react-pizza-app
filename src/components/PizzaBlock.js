@@ -24,16 +24,13 @@ function PizzaBlock({ id, imageUrl,
           {
             types.map(type => (
               (types.length > 1) ?
-
-                (type == activeType) ?
-                  <li key={type} className="active">тонкое</li>
-                  :
-                  <li key={type}>традиционное</li>
+                <li onClick={() => setActiveType(type)} key={type} className={type == activeType ? 'active' : ''}>
+                  {type == 0 ? 'тонкое' : 'традиционное'}
+                </li>
                 :
-                (type == activeType) ?
-                  <li key={type} className="active">тонкое</li>
-                  :
-                  <li key={type} className="active">традиционное</li>
+                <li key={type} className="active">
+                  {type == 0 ? 'тонкое' : 'традиционное'}
+                </li>
             ))
           }
 
@@ -41,10 +38,7 @@ function PizzaBlock({ id, imageUrl,
         <ul>
           {
             sizes.map((size, ind) => (
-              (ind == activeSize) ?
-                <li key={size} className="active">{size} см.</li>
-                :
-                <li key={size}>{size} см.</li>
+              <li onClick={() => setActiveSize(ind)} key={size} className={ind == activeSize ? "active" : ""}>{size} см.</li>
             ))
           }
         </ul>
