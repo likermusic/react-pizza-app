@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .sort {
   position: relative;
@@ -6,8 +6,13 @@
     display: flex;
     align-items: center;
 
-    svg {
+    .sortSvg {
       margin-right: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      &__sort-down {
+        transform: scaleY(-1);
+      }
     }
 
     b {
