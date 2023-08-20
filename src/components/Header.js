@@ -1,5 +1,7 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import pizzaLogo from '../assets/img/pizza-logo.svg';
+import { BASKET_ROUTE } from '../utils/routes';
 
 function Header() {
   return (
@@ -13,7 +15,7 @@ function Header() {
           </div>
         </div>
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
+          <Link to={BASKET_ROUTE} className="button button--cart">
             <span>520 ₽</span>
             <div className="button__delimiter"></div>
             <svg
@@ -46,11 +48,11 @@ function Header() {
               />
             </svg>
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Header
+export default Header;
