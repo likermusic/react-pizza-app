@@ -6,7 +6,7 @@
     "types": [0, 1],
     "sizes": [26, 30, 40],
     "price": 803,
-    "category": 1,
+    "category": "Мясные",
     "rating": 4
   },
   {
@@ -26,7 +26,7 @@
     "types": [0],
     "sizes": [26, 40],
     "price": 295,
-    "category": 2,
+    "category": "Мясные",
     "rating": 4
   },
   {
