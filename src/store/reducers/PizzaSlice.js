@@ -19,6 +19,7 @@ const initialState = {
       return {
         ...state,
         pizzas: action.payload,
+        filteredPizzas:action.payload,
       };
         case 'UPDATE_PIZZAS':
       return {

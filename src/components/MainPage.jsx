@@ -8,38 +8,48 @@ import PizzaBlock from './PizzaBlock';
 import pizz from '../assets/pizzas.json';
 import { useSelector, useDispatch } from 'react-redux';
 import { updatePizzas, initialPizzas, setSelectedType } from '../store/actions/PizzaActions';
+import { getPizzas } from '../api/getPizzasApi';
 
 export const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
-  const pizzas = useSelector((state) => state.filteredPizzas);
-  const selectedType = useSelector((state) => state.selectedType);
+  let pizzas = useSelector((state) => state.filteredPizzas);
+  const selectedType = useSelector((state) => state.selectedType) || 'Все';
+  const Allpizzas = useSelector((state) => state.pizzas);
 
   useEffect(() => {
-    const updatedPizzas = [...pizz];
-    dispatch(initialPizzas(updatedPizzas));
-    setIsLoading(false);
-  }, []);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true)
+        const result = await getPizzas();
+        console.log(result);
+        dispatch(initialPizzas([...result]));
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
     try {
-      let filteredPizzas;
       if (selectedType !== '') {
-        if (selectedType === 'Все') {
-          dispatch(updatePizzas(pizz));
-        } else {
-          filteredPizzas = pizzas.filter((pizza) => pizza.category === selectedType);
-          dispatch(updatePizzas(filteredPizzas));
-        }
+        pizzas=Allpizzas
+        selectedType==="Все"?
+        dispatch(updatePizzas(pizzas))
+        :
+        dispatch(updatePizzas(pizzas.filter((pizza) => pizza.category === selectedType)));
       } else {
-        filteredPizzas = pizzas;
-        dispatch(updatePizzas(filteredPizzas));
+        dispatch(updatePizzas(Allpizzas));
       }
     } catch (e) {
       console.log(e);
     }
   }, [selectedType]);
-
+  console.log('pizzas');
+  console.log(pizzas);
   return (
     <div className="content">
       <div className="container">
@@ -47,7 +57,7 @@ export const MainPage = () => {
           <Categories />
           <Sort />
         </div>
-        <h2 className="content__title">Все пиццы</h2>
+        <h2 className="content__title">{selectedType.toString() || 'Все'}</h2>
         <div className="content__items">
           {isLoading ? (
             <>
@@ -56,7 +66,7 @@ export const MainPage = () => {
               ))}
             </>
           ) : (
-            pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
+           pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
           )}
         </div>
       </div>

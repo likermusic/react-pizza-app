@@ -11,7 +11,7 @@ export const updatePizzas = (pizzas) => ({
   });
 
   export const initialPizzas = (pizzas) => ({
-    type: 'SET_SELECTED_TYPE',
+    type: 'INITIALIZATE_PIZZAS',
     payload: pizzas,
   });
 
