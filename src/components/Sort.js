@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react'
 
-function Sort() {
+function Sort({ active, setActive, isUp, setIsUp }) {
   const sortTypes = ['популярности', 'цене', 'алфавиту'];
-  const [sort, setSort] = useState(0);
+
   const [isOpen, setIsOpen] = useState(false);
-  const [isUp, setIsUp] = useState(true);
+
 
   let svgStyles = (!isUp) ? 'sortSvg sortSvg__sort-down' : 'sortSvg';
 
@@ -36,7 +36,7 @@ function Sort() {
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setIsOpen(!isOpen)}>
-          {sortTypes[sort]}
+          {sortTypes[active]}
         </span>
       </div>
       {
@@ -45,7 +45,7 @@ function Sort() {
           <ul>
             {
               sortTypes.map((type, ind) => (
-                <li onClick={() => { setSort(ind); setIsOpen(false) }} key={ind} className={sort == ind ? 'active' : ''}>{type}</li>
+                <li onClick={() => { setActive(ind); setIsOpen(false) }} key={ind} className={active == ind ? 'active' : ''}>{type}</li>
               ))
             }
           </ul>
