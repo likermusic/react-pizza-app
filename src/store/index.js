@@ -1,15 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import sliceA from './sliceA'
-import sliceB from './sliceB'
-import sliceC from './sliceC'
+import {configureStore} from '@reduxjs/toolkit';
+import filterReducer from './slices/filterSlice';
 
-
-const store = configureStore({
+export const store = configureStore({
   reducer: {
-    stateA: sliceA,
-    stateB: sliceB,
-    stateC: sliceC,
-  },
+    filter: filterReducer,
+  }
 })
 
-export default store
+console.log(store);

@@ -1,14 +1,18 @@
 import React, { useContext } from "react";
-import { AppContext } from "../App1";
+import {useSelector, useDispatch} from 'react-redux';
+import { increment,decrement } from '../../store-test/sliceB'
 
 function ComponentB() {
-  const { stateB, setStateB } = useContext(AppContext);
-  console.log('Component B Render');
+  const stateB = useSelector((state) => state.stateB.value);
+  const dispatch = useDispatch();
+
+  console.log('Component B render');
 
   return (
     <>
+      <button onClick={() => dispatch(decrement())}>-</button>
       <label>{stateB}</label>
-      <button onClick={() => setStateB(stateB + 1)}>+</button>
+      <button onClick={() => dispatch(increment())}>+</button>
     </>
   )
 }

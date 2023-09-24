@@ -1,23 +1,26 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom';
-
-
 import useRoutesWrapper from '../hooks/useRoutesWrapper';
 import NotFound from '../pages/NotFound';
 import Layout from './Layout';
 import Home from '../pages/Home';
 import Cart from '../pages/Cart';
 
+import {useSelector, useDispatch} from 'react-redux'
+
 export const AppContext = createContext()
 
 function App() {
+  const activeCategory = useSelector((state)=>state.filter.category);
+  console.log(activeCategory);
+
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState(0);
+  
   const [activeSort, setActiveSort] = useState({ type: 0, isUp: true });
   const [search, setSearch] = useState('');
   
-  const store = {pizzas, setPizzas, loading, setLoading, activeCategory, setActiveCategory, activeSort, setActiveSort, setSearch};
+  const store = {pizzas, setPizzas, loading, setLoading, activeSort, setActiveSort, setSearch};
   
    useEffect(() => {
     // Проверки
