@@ -21,10 +21,24 @@ function App() {
     const category = activeCategory == 0 ? '' : activeCategory;
     const sort = ['rating', 'price', 'title'];
     const order = activeSort.isUp ? 'asc' : 'desc';
-    const search = 'аывавыак';
-    fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[activeSort.type]}&order=${order}&search=чч`)
-      .then(resp => resp.json())
-      .then(data => setPizzas(data))
+    const search = 'а';
+
+    Promise.all([
+      fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[activeSort.type]}&order=${order}`),
+      fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?search=${search}`),
+    ]).then(([sorted, searched]) => { 
+      return Promise.all([sorted.json(),searched.json()])
+    }).then(([sorted,searched])=> {
+      // console.log(sorted,searched);
+      const newData = sorted.filter(sortedItem => searched.some(searchedItem => sortedItem.id == searchedItem.id));
+      setPizzas(newData)
+    })
+
+
+    // fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?search=${search}`)
+    // fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[activeSort.type]}&order=${order}`)
+      // .then(resp => resp.json())
+      // .then(data => setPizzas(data))
       .finally(() => setLoading(false))
       .catch(err => {
         //Отрисовать в поле пицц сообщение об ошибке
