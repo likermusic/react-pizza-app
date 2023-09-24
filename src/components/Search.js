@@ -2,15 +2,12 @@ import React, { useContext, useRef, useState } from 'react'
 import { AppContext } from './App';
 
 function Search() {
-  const { pizzas, setPizzas } = useContext(AppContext);
+  const { pizzas, setPizzas, setSearch } = useContext(AppContext);
   const inputRef = useRef(null);
 
   function searchHandler() {
     const value = inputRef.current.value;
-    const filtered = pizzas.filter((item) => {
-      return item.title.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    })
-    setPizzas(filtered);
+    setSearch(value);
   }
   return (
     <div className='search-wrapper'>

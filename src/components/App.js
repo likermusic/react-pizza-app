@@ -15,13 +15,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(0);
   const [activeSort, setActiveSort] = useState({ type: 0, isUp: true });
-
+  const [search, setSearch] = useState('');
+  
+  const store = {pizzas, setPizzas, loading, setLoading, activeCategory, setActiveCategory, activeSort, setActiveSort, setSearch};
+  
    useEffect(() => {
     // Проверки
     const category = activeCategory == 0 ? '' : activeCategory;
     const sort = ['rating', 'price', 'title'];
     const order = activeSort.isUp ? 'asc' : 'desc';
-    const search = 'а';
 
     Promise.all([
       fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[activeSort.type]}&order=${order}`),
@@ -44,13 +46,13 @@ function App() {
         //Отрисовать в поле пицц сообщение об ошибке
         alert(`Ошибка запроса к серверу: ${err.message}`);
       });
-  }, [activeCategory, activeSort])
+  }, [activeCategory, activeSort, search])
 
   return (  
     // <>
     //   {routes}
     // </> 
-      <AppContext.Provider value={{pizzas, setPizzas, loading, setLoading, activeCategory, setActiveCategory, activeSort, setActiveSort}}>
+      <AppContext.Provider value={store}>
         <Routes >
             <Route path='/' element={<Layout/>}>
               <Route index element={<Home/> } />
