@@ -12,24 +12,24 @@ export const AppContext = createContext()
 
 function App() {
   const activeCategory = useSelector((state)=>state.filter.category);
-  console.log(activeCategory);
+  const {isUp,type} = useSelector(state => state.filter.sort);
 
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const [activeSort, setActiveSort] = useState({ type: 0, isUp: true });
+  // const [activeSort, setActiveSort] = useState({ type: 0, isUp: true });
   const [search, setSearch] = useState('');
-  
-  const store = {pizzas, setPizzas, loading, setLoading, activeSort, setActiveSort, setSearch};
+
+  const store = {pizzas, setPizzas, loading, setLoading, setSearch};
   
    useEffect(() => {
     // Проверки
     const category = activeCategory == 0 ? '' : activeCategory;
     const sort = ['rating', 'price', 'title'];
-    const order = activeSort.isUp ? 'asc' : 'desc';
+    const order = isUp ? 'asc' : 'desc';
 
     Promise.all([
-      fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[activeSort.type]}&order=${order}`),
+      fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?category=${category}&sortBy=${sort[type]}&order=${order}`),
       fetch(`https://64d8ae0a5f9bf5b879ce72a8.mockapi.io/items?search=${search}`),
     ]).then(([sorted, searched]) => { 
       return Promise.all([sorted.json(),searched.json()])
@@ -49,7 +49,7 @@ function App() {
         //Отрисовать в поле пицц сообщение об ошибке
         alert(`Ошибка запроса к серверу: ${err.message}`);
       });
-  }, [activeCategory, activeSort, search])
+  }, [activeCategory, type, isUp, search])
 
   return (  
     // <>

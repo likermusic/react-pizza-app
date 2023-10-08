@@ -8,6 +8,18 @@ import { AppContext } from '../components/App';
 function Home() {
   const { pizzas, setPizzas, loading, activeCategory, activeSort } = useContext(AppContext);
 
+// if (loading == false) {
+//   if (pizzas.length > 0) {
+//     Все пиццы
+//   }  else {
+//     Пиццы не найдены
+//   }
+// }
+
+// loading == false ? (pizzas.length > 0 ? <h2 className="content__title">Все пиццы</h2> : <h2 className="content__title">Пиццы не найдены</h2>) : null
+
+// loading == false && (pizzas.length > 0 ? <h2 className="content__title">Все пиццы</h2> : <h2 className="content__title">Пиццы не найдены</h2>)
+
 
   return (
     <>
@@ -15,7 +27,9 @@ function Home() {
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
+      {
+      loading == false && (pizzas.length > 0 ? <h2 className="content__title">Все пиццы</h2> : <h2 className="content__title">Пиццы не найдены</h2>)
+      }
       <div className="content__items">
         {!loading ?
           pizzas.map(pizza => (

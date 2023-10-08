@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { addItem } from '../store/slices/cartSlice';
 
 function PizzaBlock({ id, imageUrl,
   title,
@@ -11,6 +13,7 @@ function PizzaBlock({ id, imageUrl,
   const [activeSize, setActiveSize] = useState(0)
   const [activeType, setActiveType] = useState(0);
 
+  const dispatch = useDispatch();
   return (
     <div className="pizza-block">
       <img
@@ -58,7 +61,7 @@ function PizzaBlock({ id, imageUrl,
               fill="white"
             />
           </svg>
-          <span>Добавить</span>
+          <span onClick={()=>dispatch(addItem(id))}>Добавить</span>
           <i>0</i>
         </div>
       </div>
