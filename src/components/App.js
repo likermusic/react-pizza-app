@@ -7,14 +7,16 @@ import Home from '../pages/Home';
 import Cart from '../pages/Cart';
 
 import {useSelector, useDispatch} from 'react-redux'
+import { setPizzas } from '../store/slices/pizzasSlice';
 
 export const AppContext = createContext()
 
 function App() {
-  const activeCategory = useSelector((state)=>state.filter.category);
+  const activeCategory = useSelector(state => state.filter.category);
   const {isUp,type} = useSelector(state => state.filter.sort);
+  const pizzas = useSelector(state => state.pizzas.items);
+  const dispatch = useDispatch();
 
-  const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
   
   // const [activeSort, setActiveSort] = useState({ type: 0, isUp: true });
@@ -36,7 +38,8 @@ function App() {
     }).then(([sorted,searched])=> {
       // console.log(sorted,searched);
       const newData = sorted.filter(sortedItem => searched.some(searchedItem => sortedItem.id == searchedItem.id));
-      setPizzas(newData)
+      dispatch(setPizzas(newData))
+      
     })
 
 
