@@ -16,6 +16,7 @@ function PizzaBlock({ id, imageUrl,
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
 
+  //useMemo не работает
   // const ind = useMemo(() => {
   //   return cartItems.findIndex(item => item.id == id);
   // }, [id])

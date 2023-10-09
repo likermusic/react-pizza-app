@@ -23,6 +23,8 @@ const cartSlice = createSlice({
         state.items[ind].qty += 1;
       }
 
+      //как прочитать state здесь
+      //как получить state из другого слайса
       state.count = state.items.reduce((count, item) => count + item.qty, 0)
       // state.total = 
     },
