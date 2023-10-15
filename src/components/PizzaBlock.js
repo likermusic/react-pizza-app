@@ -12,12 +12,13 @@ function PizzaBlock({
   category,
   rating,
 }) {
-  const item = { id, imageUrl, title, price };
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
 
   const [activeSize, setActiveSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
+
+  const item = { id, imageUrl, title, price, activeSize, activeType };
 
   const ind = useMemo(() => {
     const ind = cartItems.findIndex((item) => item.id == id);
