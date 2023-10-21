@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../store/slices/cartSlice";
+import React, { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../store/slices/cartSlice';
 
 function PizzaBlock({
   id,
@@ -25,6 +25,7 @@ function PizzaBlock({
     return ind;
   }, [id, cartItems]);
 
+  // Переместить эту логику в useMemo отсюда и  возрв qty
   let qty = 0;
   if (ind != -1) {
     qty = cartItems[ind].qty;
@@ -41,12 +42,12 @@ function PizzaBlock({
               <li
                 onClick={() => setActiveType(type)}
                 key={type}
-                className={type == activeType ? "active" : ""}>
-                {type == 0 ? "тонкое" : "традиционное"}
+                className={type == activeType ? 'active' : ''}>
+                {type == 0 ? 'тонкое' : 'традиционное'}
               </li>
             ) : (
               <li key={type} className='active'>
-                {type == 0 ? "тонкое" : "традиционное"}
+                {type == 0 ? 'тонкое' : 'традиционное'}
               </li>
             )
           )}
@@ -56,7 +57,7 @@ function PizzaBlock({
             <li
               onClick={() => setActiveSize(ind)}
               key={size}
-              className={ind == activeSize ? "active" : ""}>
+              className={ind == activeSize ? 'active' : ''}>
               {size} см.
             </li>
           ))}

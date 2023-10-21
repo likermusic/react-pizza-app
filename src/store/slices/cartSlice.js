@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import pizzasSlice from "./pizzasSlice";
+import { createSlice } from '@reduxjs/toolkit';
+import pizzasSlice from './pizzasSlice';
+import _ from 'lodash';
 
 //Получили pizzas из pizzasSlice
 const initialState = {
@@ -7,22 +8,22 @@ const initialState = {
 
   // [
   //   {
-  //     "id": "1",
-  //     "title",
-  //     "imageUrl",
-  //     "price",
-
-  //     "details": [
+  //     id: 4,
+  //     imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/af553bf5-3887-4501-b88e-8f0f55229429.jpg",
+  //     title: "Кисло-сладкий цыпленок",
+  //     price: 275,
+  //     details: [
   //       {
-  //         "type":"0",
-  //         "sizes": [{"size":"26","count":2},{"size":"30","count":1}]
-  //       },
-  //       {
-  //         "type":"1",
-  //         "sizes": [{"size":"26","count":3},{"size":"30","count":2}]
+  //         type: 0,
+  //         sizes: [
+  //           {
+  //             size: 0,
+  //             qty: 1
+  //           }
+  //         ]
   //       }
   //     ]
-  //   },
+  //   }
   // ]
 
   total: 0,
@@ -30,16 +31,15 @@ const initialState = {
 };
 
 const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
     addItem(state, action) {
-      const id = action.payload.id;
-      const ind = state.items.findIndex((item) => item.id == id);
-      if (ind == -1) {
-        const { id, imageUrl, title, price, activeSize, activeType } =
-          action.payload;
+      const { id, imageUrl, title, price, activeSize, activeType } =
+        action.payload;
+      const itemsInd = state.items.findIndex((item) => item.id == id);
 
+      if (itemsInd == -1) {
         const item = {
           id,
           imageUrl,
@@ -53,8 +53,47 @@ const cartSlice = createSlice({
           ],
         };
         state.items.push(item);
+        console.log(JSON.stringify(state.items));
       } else {
-        state.items[ind].qty += 1;
+        //Когда товар с таким ид уже есть, ищем где в details объект с таким же типом
+        const detailsTypeInd = state.items[itemsInd].details.findIndex(
+          (el) => el.type == activeType
+        );
+        //если нашли эл с таким типом
+        if (detailsTypeInd != -1) {
+          // В массиве details ищем в массиве sizes объект с таким же сайзом этого типа
+          const typeSizeInd = state.items[itemsInd].details[
+            detailsTypeInd
+          ].sizes.findIndex((el) => el.size == activeSize);
+          //Если нашли эл такого типа и с таким же сайз
+          if (typeSizeInd != -1) {
+            state.items[itemsInd].details[detailsTypeInd].sizes[typeSizeInd]
+              .qty++;
+          } else {
+            //Если нашли эл такого типа но сайза такого еще не было
+            const sizesItem = {
+              size: activeSize,
+              qty: 1,
+            };
+            //то в существующий тип доб в массив объект с новым сайзом в кол 1 штука
+            state.items[itemsInd].details[detailsTypeInd].sizes.push(sizesItem);
+          }
+
+          console.log(JSON.stringify(state.items));
+        } else {
+          //если не нашли эл с таким типом тогда доюавляем ее впервые такого типа
+          const detailsItem = {
+            type: activeType,
+            sizes: [
+              {
+                size: activeSize,
+                qty: 1,
+              },
+            ],
+          };
+          state.items[itemsInd].details.push(detailsItem);
+          console.log(JSON.stringify(state.items));
+        }
       }
 
       //как прочитать state здесь
