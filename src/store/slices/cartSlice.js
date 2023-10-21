@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 //Получили pizzas из pizzasSlice
 const initialState = {
-  items: [], // [{id:1,imageUrl, title, price,qty:3}]
+  items: [],
 
   // [
   //   {
