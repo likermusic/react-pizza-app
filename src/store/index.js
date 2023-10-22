@@ -7,6 +7,6 @@ export const store = configureStore({
   reducer: {
     filter: filterReducer,
     cart: cartReducer,
-    pizzas: pizzasReducer
-  }
-})
+    pizzas: pizzasReducer,
+  },
+});

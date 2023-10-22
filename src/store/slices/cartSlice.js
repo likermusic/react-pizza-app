@@ -20,30 +20,16 @@ const initialState = {
   //           {
   //             size: 0,
   //             qty: 1
-  //           }
-  //         ]
-  //       },
-
-  //       {
-  //         type: 0,
-  //         sizes: [
-  //           {
-  //             size: 0,
-  //             qty: 1
   //           },
   //           {
-  //             size: 0,
-  //             qty: 4
-  //           }
-  //           {
-  //             size: 0,
-  //             qty: 3
+  //             size: 1,
+  //             qty: 1
   //           }
   //         ]
   //       },
 
   //       {
-  //         type: 0,
+  //         type: 1,
   //         sizes: [
   //           {
   //             size: 0,
@@ -51,6 +37,7 @@ const initialState = {
   //           }
   //         ]
   //       },
+
   //     ]
   //   }
 
