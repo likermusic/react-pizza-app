@@ -20,16 +20,25 @@ function PizzaBlock({
 
   const item = { id, imageUrl, title, price, activeSize, activeType };
 
-  const ind = useMemo(() => {
+  const [ind, qty] = useMemo(() => {
     const ind = cartItems.findIndex((item) => item.id == id);
-    return ind;
+    let qty = 0;
+    if (ind != -1) {
+      qty = cartItems[ind].totalQty;
+    }
+    return [ind, qty];
   }, [id, cartItems]);
 
   // Переместить эту логику в useMemo отсюда и  возрв qty
-  let qty = 0;
-  if (ind != -1) {
-    qty = cartItems[ind].qty;
-  }
+  // let count = useMemo(() => { // 10001
+  //   let c = 0;
+  //   for (let index = 0; index <= 10000; index++) {
+  //     c++
+  //     if (index == 10000) console.log('Render');
+  //   }
+  //   return c;
+
+  // }, [cartItems]);
 
   return (
     <div className='pizza-block'>

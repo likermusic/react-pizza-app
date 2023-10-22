@@ -5,13 +5,14 @@ import _ from 'lodash';
 //Получили pizzas из pizzasSlice
 const initialState = {
   items: [],
-
   // [
+
   //   {
   //     id: 4,
   //     imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/af553bf5-3887-4501-b88e-8f0f55229429.jpg",
   //     title: "Кисло-сладкий цыпленок",
   //     price: 275,
+  //     totalQty: 1
   //     details: [
   //       {
   //         type: 0,
@@ -21,9 +22,38 @@ const initialState = {
   //             qty: 1
   //           }
   //         ]
-  //       }
+  //       },
+
+  //       {
+  //         type: 0,
+  //         sizes: [
+  //           {
+  //             size: 0,
+  //             qty: 1
+  //           },
+  //           {
+  //             size: 0,
+  //             qty: 4
+  //           }
+  //           {
+  //             size: 0,
+  //             qty: 3
+  //           }
+  //         ]
+  //       },
+
+  //       {
+  //         type: 0,
+  //         sizes: [
+  //           {
+  //             size: 0,
+  //             qty: 1
+  //           }
+  //         ]
+  //       },
   //     ]
   //   }
+
   // ]
 
   total: 0,
@@ -45,6 +75,7 @@ const cartSlice = createSlice({
           imageUrl,
           title,
           price,
+          totalQty: 1,
           details: [
             {
               type: activeType,
@@ -53,7 +84,10 @@ const cartSlice = createSlice({
           ],
         };
         state.items.push(item);
-        console.log(JSON.stringify(state.items));
+        state.count = state.count + 1;
+        state.total = state.total + price;
+
+        // console.log(JSON.stringify(state.items));
       } else {
         //Когда товар с таким ид уже есть, ищем где в details объект с таким же типом
         const detailsTypeInd = state.items[itemsInd].details.findIndex(
@@ -69,6 +103,9 @@ const cartSlice = createSlice({
           if (typeSizeInd != -1) {
             state.items[itemsInd].details[detailsTypeInd].sizes[typeSizeInd]
               .qty++;
+            state.items[itemsInd].totalQty++;
+            state.count = state.count + 1;
+            state.total = state.total + price;
           } else {
             //Если нашли эл такого типа но сайза такого еще не было
             const sizesItem = {
@@ -77,9 +114,11 @@ const cartSlice = createSlice({
             };
             //то в существующий тип доб в массив объект с новым сайзом в кол 1 штука
             state.items[itemsInd].details[detailsTypeInd].sizes.push(sizesItem);
+            state.items[itemsInd].totalQty++;
+            state.count = state.count + 1;
+            state.total = state.total + price;
           }
-
-          console.log(JSON.stringify(state.items));
+          // console.log(JSON.stringify(state.items));
         } else {
           //если не нашли эл с таким типом тогда доюавляем ее впервые такого типа
           const detailsItem = {
@@ -92,7 +131,10 @@ const cartSlice = createSlice({
             ],
           };
           state.items[itemsInd].details.push(detailsItem);
-          console.log(JSON.stringify(state.items));
+          state.items[itemsInd].totalQty++;
+          state.count = state.count + 1;
+          state.total = state.total + price;
+          // console.log(JSON.stringify(state.items));
         }
       }
 
