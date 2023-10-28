@@ -54,6 +54,7 @@ const cartSlice = createSlice({
     addItem(state, action) {
       const { id, imageUrl, title, price, activeSize, activeType } =
         action.payload;
+      // console.log(action.payload);
       const itemsInd = state.items.findIndex((item) => item.id == id);
 
       if (itemsInd == -1) {
@@ -130,7 +131,30 @@ const cartSlice = createSlice({
       // state.count = state.items.reduce((count, item) => count + item.qty, 0);
       // state.total =
     },
-    deleteItem(state, action) {},
+    deleteItem(state, action) {
+      const { id, imageUrl, title, price, activeSize, activeType } =
+        action.payload;
+      state.items.forEach((item) => {
+        if (item.id == id) {
+          item.details.forEach((detailsItem) => {
+            if (detailsItem.type == activeType) {
+              detailsItem.sizes.forEach((sizesItem, ind) => {
+                if (sizesItem.size == activeSize) {
+                  if (sizesItem.qty <= 1) {
+                    detailsItem.sizes.splice(ind, 1);
+                  } else {
+                    sizesItem.qty--;
+                  }
+                  item.totalQty--;
+                  state.count--;
+                  state.total = state.total - price;
+                }
+              });
+            }
+          });
+        }
+      });
+    },
   },
 });
 

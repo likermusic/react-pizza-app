@@ -16,7 +16,10 @@ function PizzaBlock({
   const dispatch = useDispatch();
 
   const [activeSize, setActiveSize] = useState(0);
-  const [activeType, setActiveType] = useState(0);
+  // const [activeType, setActiveType] = useState(0);
+
+  // FIX TYPES
+  const [activeType, setActiveType] = useState(types[0]);
 
   const item = { id, imageUrl, title, price, activeSize, activeType };
 
@@ -28,17 +31,6 @@ function PizzaBlock({
     }
     return [ind, qty];
   }, [id, cartItems]);
-
-  // Переместить эту логику в useMemo отсюда и  возрв qty
-  // let count = useMemo(() => { // 10001
-  //   let c = 0;
-  //   for (let index = 0; index <= 10000; index++) {
-  //     c++
-  //     if (index == 10000) console.log('Render');
-  //   }
-  //   return c;
-
-  // }, [cartItems]);
 
   return (
     <div className='pizza-block'>

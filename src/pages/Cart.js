@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import CartContent from '../components/CartContent';
 
 function Cart() {
   // cart = [{id,qty},{id,title,count,price}]
@@ -93,7 +94,10 @@ function Cart() {
               </div>
             ) : null}
           </div>
-          <div className='content__items'>СЮДА !!!!!</div>
+          <div className='content__items'>
+            {/* СЮДА !!!!! */}
+            <CartContent />
+          </div>
           <div className='cart__bottom'>
             <div className='cart__bottom-details'>
               <span>
