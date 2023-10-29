@@ -1,11 +1,14 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CartContent from '../components/CartContent';
+import { Link } from 'react-router-dom';
+import { clearItems } from '../store/slices/cartSlice';
 
 function Cart() {
   // cart = [{id,qty},{id,title,count,price}]
   const pizzas = useSelector((state) => state.pizzas.items);
   const cart = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
   const total = useSelector((state) => state.cart.total);
   const count = useSelector((state) => state.cart.count);
   // Вытащзить из пицц размеры все и типы
@@ -54,7 +57,9 @@ function Cart() {
               Корзина
             </h2>
             {cart.length > 0 ? (
-              <div className='cart__clear'>
+              <div
+                onClick={() => dispatch(clearItems())}
+                className='cart__clear'>
                 <svg
                   width='20'
                   height='20'
@@ -110,8 +115,8 @@ function Cart() {
               </span>
             </div>
             <div className='cart__bottom-buttons'>
-              <a
-                href='/'
+              <Link
+                to='/'
                 className='button button--outline button--add go-back-btn'>
                 <svg
                   width='8'
@@ -129,7 +134,7 @@ function Cart() {
                 </svg>
 
                 <span>Вернуться назад</span>
-              </a>
+              </Link>
               <div className='button pay-btn'>
                 <span>Оплатить сейчас</span>
               </div>

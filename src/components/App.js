@@ -76,7 +76,6 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='cart' element={<Cart />} />
-          <Route path='about' element='<h1>О нас</h1><span>Hello</span>' />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
