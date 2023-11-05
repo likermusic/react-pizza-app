@@ -7,7 +7,7 @@ import Home from '../pages/Home';
 import Cart from '../pages/Cart';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setPizzas } from '../store/slices/pizzasSlice';
+import { fetchPizzas, setPizzas } from '../store/slices/pizzasSlice';
 // import _ from 'lodash';
 
 export const AppContext = createContext();
@@ -30,6 +30,10 @@ function App() {
   const [search, setSearch] = useState('');
 
   const store = { pizzas, setPizzas, loading, setLoading, setSearch };
+
+  useEffect(() => {
+    dispatch(fetchPizzas());
+  }, []);
 
   useEffect(() => {
     // Проверки
@@ -72,6 +76,7 @@ function App() {
     //   {routes}
     // </>
     <AppContext.Provider value={store}>
+      {/* {JSON.stringify(data)} */}
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />

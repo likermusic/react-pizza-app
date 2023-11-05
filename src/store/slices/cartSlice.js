@@ -1,8 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import pizzasSlice from './pizzasSlice';
-import _ from 'lodash';
 
-//Получили pizzas из pizzasSlice
 const initialState = {
   items: [],
   // [
@@ -17,10 +15,7 @@ const initialState = {
   //       {
   //         type: 0,
   //         sizes: [
-  //           {
-  //             size: 0,
-  //             qty: 1
-  //           },
+  //
   //           {
   //             size: 1,
   //             qty: 1
@@ -148,6 +143,7 @@ const cartSlice = createSlice({
                   item.totalQty--;
                   state.count--;
                   state.total = state.total - price;
+                  if (state.count == 0) state.items = [];
                 }
               });
             }
