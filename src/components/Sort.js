@@ -1,34 +1,28 @@
-import React, { useRef, useState, useContext } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { setSort } from '../store/slices/filterSlice';
-import { AppContext } from './App';
+import React, { useRef, useState, useContext, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSort } from "../store/slices/filterSlice";
+import { AppContext } from "./App";
 
 function Sort() {
-  const {type, isUp} = useSelector(state => state.filter.sort);
+  const { type, isUp } = useSelector((state) => state.filter.sort);
   const dispatch = useDispatch();
 
-  const sortTypes = ['популярности', 'цене', 'алфавиту'];
+  const sortTypes = ["популярности", "цене", "алфавиту"];
 
   const [isOpen, setIsOpen] = useState(false);
 
-  // const { activeSort, setActiveSort } = useContext(AppContext);
- 
-  let svgStyles = (!isUp) ? 'sortSvg sortSvg__sort-down' : 'sortSvg';
-
-  // function clickSvgHandler(e) {
-  //   setIsUp(!isUp);
-  //   let svg = e.target;
-  //   if (!e.target.matches('svg')) {
-  //     svg = e.target.parentElement;
-  //   }
-  //   svg.classList.toggle('sortSvg__sort-down');
-  // }
+  let svgStyles = !isUp ? "sortSvg sortSvg__sort-down" : "sortSvg";
 
   return (
     <div className="sort">
       <div className="sort__label">
         <svg
-          onClick={() => dispatch(setSort({ type, isUp: !isUp }))}
+          onClick={
+            // () => dispatch(setSort({ type, isUp: !isUp }))
+            useCallback(() => {
+              dispatch(setSort({ type, isUp: !isUp }));
+            }, [dispatch, type, isUp])
+          }
           className={svgStyles}
           width="10"
           height="6"
@@ -42,24 +36,35 @@ function Sort() {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>
+        <span
+          //onClick={() => setIsOpen(!isOpen)}
+          onClick={useCallback(() => {
+            setIsOpen(!isOpen);
+          }, [isOpen])}
+        >
           {sortTypes[type]}
         </span>
       </div>
-      {
-        isOpen &&
-        (<div className="sort__popup">
+      {isOpen && (
+        <div className="sort__popup">
           <ul>
-            {
-              sortTypes.map((type, ind) => (
-                <li onClick={() => { dispatch(setSort({ type: ind, isUp: isUp })); setIsOpen(false) }} key={ind} className={type == ind ? 'active' : ''}>{type}</li>
-              ))
-            }
+            {sortTypes.map((type, ind) => (
+              <li
+                onClick={() => {
+                  dispatch(setSort({ type: ind, isUp: isUp }));
+                  setIsOpen(false);
+                }}
+                key={ind}
+                className={type == ind ? "active" : ""}
+              >
+                {type}
+              </li>
+            ))}
           </ul>
-        </div>)
-      }
-    </div >
-  )
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default Sort
+export default Sort;

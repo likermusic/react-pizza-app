@@ -6,9 +6,7 @@ import { useSelector } from 'react-redux';
 
 function Header() {
   const { total, count } = useSelector((state) => state.cart);
-  // const setActive = ({ isActive }) => isActive ? 'active-link' : '';
   const location = useLocation();
-
   return (
     <div className='header'>
       <div className='container'>
@@ -21,7 +19,7 @@ function Header() {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        {location.pathname !== '/cart' && <Search />}
+        {location.pathname !== '/cart' &&  !/\/pizzas\/.*/.test(location.pathname) && <Search />}
         <div className='header__cart'>
           <Link to='/cart' className='button button--cart'>
             <span>{total} ₽</span>

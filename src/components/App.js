@@ -1,14 +1,24 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, {
+  createContext,
+  lazy,
+  useEffect,
+  useState,
+  Suspense,
+} from "react";
+import { Routes, Route } from "react-router-dom";
 // import useRoutesWrapper from '../hooks/useRoutesWrapper';
-import NotFound from '../pages/NotFound';
-import Layout from './Layout';
-import Home from '../pages/Home';
-import Cart from '../pages/Cart';
+import Layout from "./Layout";
+import Home from "../pages/Home";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchPizzas, setPizzas } from '../store/slices/pizzasSlice';
-// import _ from 'lodash';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPizzas, setPizzas } from "../store/slices/pizzasSlice";
+import Loader from "./Loader";
+// import Pizza from '../pages/Pizza';
+
+//TODO Сделать для Cart NotFound роутов lazy
+const Pizza = lazy(() => import("../pages/Pizza"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const Cart = lazy(() => import("../pages/Cart"));
 
 export const AppContext = createContext();
 
@@ -20,20 +30,21 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Проверки
-
     dispatch(fetchPizzas());
   }, [activeCategory, type, isUp, search]);
 
   return (
     <>
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path='cart' element={<Cart />} />
-          <Route path='*' element={<NotFound />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="pizzas/:id" element={<Pizza />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </>
   );
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import Header from './Header';
-import { Outlet } from 'react-router-dom';
+import React, { memo } from "react";
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
 
-function Layout() {
+const Layout = memo(function () {
   return (
     <div className="wrapper">
       <Header />
@@ -13,7 +13,7 @@ function Layout() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+});
 
-export default Layout
+export default Layout;

@@ -151,12 +151,13 @@ const cartSlice = createSlice({
         }
       });
     },
-
+    
     clearItems(state) {
       state.items = [];
       state.count = 0;
       state.total = 0;
-    },
+    }
+
   },
 });
 
