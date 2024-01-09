@@ -1,18 +1,16 @@
 import React, { lazy, memo, Suspense, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { clearItems } from "../store/slices/cartSlice";
 import Loader from "../components/Loader";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 
 const CartContent = lazy(() => import("../components/CartContent"));
 
 const Cart = memo(function () {
-  // cart = [{id,qty},{id,title,count,price}]
-  const pizzas = useSelector((state) => state.pizzas.items);
-  const cart = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-  const total = useSelector((state) => state.cart.total);
-  const count = useSelector((state) => state.cart.count);
+  const cart = useAppSelector((state) => state.cart.items);
+  const dispatch = useAppDispatch();
+  const total = useAppSelector((state) => state.cart.total);
+  const count = useAppSelector((state) => state.cart.count);
 
   const clearItemsHandler = useCallback(() => {
     dispatch(clearItems());

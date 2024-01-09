@@ -1,18 +1,13 @@
-import React, {
-  createContext,
-  lazy,
-  useEffect,
-  useState,
-  Suspense,
-} from "react";
+import React, { lazy, useEffect, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 // import useRoutesWrapper from '../hooks/useRoutesWrapper';
 import Layout from "./Layout";
 import Home from "../pages/Home";
 
-import { useSelector, useDispatch } from "react-redux";
-import { fetchPizzas, setPizzas } from "../store/slices/pizzasSlice";
+import { fetchPizzas } from "../store/slices/pizzasSlice";
 import Loader from "./Loader";
+import { RootState } from "../store";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 // import Pizza from '../pages/Pizza';
 
 //TODO Сделать для Cart NotFound роутов lazy
@@ -20,14 +15,12 @@ const Pizza = lazy(() => import("../pages/Pizza"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 const Cart = lazy(() => import("../pages/Cart"));
 
-export const AppContext = createContext();
-
 function App() {
-  const activeCategory = useSelector((state) => state.filter.category);
-  const { isUp, type } = useSelector((state) => state.filter.sort);
-  const pizzas = useSelector((state) => state.pizzas.items);
-  const search = useSelector((state) => state.filter.search);
-  const dispatch = useDispatch();
+  const activeCategory = useAppSelector((state) => state.filter.category);
+  const { isUp, type } = useAppSelector((state) => state.filter.sort);
+  const pizzas = useAppSelector((state) => state.pizzas.items);
+  const search = useAppSelector((state) => state.filter.search);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchPizzas());

@@ -1,59 +1,54 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import pizzasSlice from './pizzasSlice';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import pizzasSlice from "./pizzasSlice";
+import { Size, Type, Pizza } from "../../types/pizza";
 
-const initialState = {
+type ItemSize = {
+  size: Size;
+  qty: number;
+};
+
+type Detail = {
+  type: Type;
+  sizes: ItemSize[];
+};
+
+type CartItem = Pick<Pizza, "id" | "imageUrl" | "title" | "price"> & {
+  totalQty: number;
+  details: Detail[];
+};
+
+type CartState = {
+  items: CartItem[];
+  total: number;
+  count: number;
+};
+
+const initialState: CartState = {
   items: [],
-  // [
-
-  //   {
-  //     id: 4,
-  //     imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/af553bf5-3887-4501-b88e-8f0f55229429.jpg",
-  //     title: "Кисло-сладкий цыпленок",
-  //     price: 275,
-  //     totalQty: 1
-  //     details: [
-  //       {
-  //         type: 0,
-  //         sizes: [
-  //
-  //           {
-  //             size: 1,
-  //             qty: 1
-  //           }
-  //         ]
-  //       },
-
-  //       {
-  //         type: 1,
-  //         sizes: [
-  //           {
-  //             size: 0,
-  //             qty: 1
-  //           }
-  //         ]
-  //       },
-
-  //     ]
-  //   }
-
-  // ]
-
   total: 0,
   count: 0,
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
-    addItem(state, action) {
+    addItem(
+      state,
+      action: PayloadAction<
+        Pick<Pizza, "id" | "imageUrl" | "title" | "price"> & {
+          activeSize: Size;
+          activeType: Type;
+        }
+      >
+    ) {
       const { id, imageUrl, title, price, activeSize, activeType } =
         action.payload;
       // console.log(action.payload);
       const itemsInd = state.items.findIndex((item) => item.id == id);
 
       if (itemsInd == -1) {
-        const item = {
+        const item: CartItem = {
           id,
           imageUrl,
           title,
@@ -91,7 +86,7 @@ const cartSlice = createSlice({
             state.total = state.total + price;
           } else {
             //Если нашли эл такого типа но сайза такого еще не было
-            const sizesItem = {
+            const sizesItem: ItemSize = {
               size: activeSize,
               qty: 1,
             };
@@ -104,7 +99,7 @@ const cartSlice = createSlice({
           // console.log(JSON.stringify(state.items));
         } else {
           //если не нашли эл с таким типом тогда доюавляем ее впервые такого типа
-          const detailsItem = {
+          const detailsItem: Detail = {
             type: activeType,
             sizes: [
               {
@@ -117,16 +112,18 @@ const cartSlice = createSlice({
           state.items[itemsInd].totalQty++;
           state.count = state.count + 1;
           state.total = state.total + price;
-          // console.log(JSON.stringify(state.items));
         }
       }
-
-      //как прочитать state здесь
-      // console.log(JSON.stringify(state.items));
-      // state.count = state.items.reduce((count, item) => count + item.qty, 0);
-      // state.total =
     },
-    deleteItem(state, action) {
+    deleteItem(
+      state,
+      action: PayloadAction<
+        Pick<Pizza, "id" | "imageUrl" | "title" | "price"> & {
+          activeSize: Size;
+          activeType: Type;
+        }
+      >
+    ) {
       const { id, imageUrl, title, price, activeSize, activeType } =
         action.payload;
       state.items.forEach((item) => {
@@ -151,13 +148,12 @@ const cartSlice = createSlice({
         }
       });
     },
-    
+
     clearItems(state) {
       state.items = [];
       state.count = 0;
       state.total = 0;
-    }
-
+    },
   },
 });
 

@@ -1,13 +1,17 @@
-import React, { useRef, useState, useContext, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useCallback } from "react";
 import { setSort } from "../store/slices/filterSlice";
-import { AppContext } from "./App";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { Type } from "../types/pizza";
 
 function Sort() {
-  const { type, isUp } = useSelector((state) => state.filter.sort);
-  const dispatch = useDispatch();
+  const { type, isUp } = useAppSelector((state) => state.filter.sort);
+  const dispatch = useAppDispatch();
 
-  const sortTypes = ["популярности", "цене", "алфавиту"];
+  const sortTypes: [string, string, string] = [
+    "популярности",
+    "цене",
+    "алфавиту",
+  ];
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,16 +52,16 @@ function Sort() {
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortTypes.map((type, ind) => (
+            {sortTypes.map((typeSort, ind) => (
               <li
                 onClick={() => {
-                  dispatch(setSort({ type: ind, isUp: isUp }));
+                  dispatch(setSort({ type: ind as Type, isUp: isUp }));
                   setIsOpen(false);
                 }}
                 key={ind}
                 className={type == ind ? "active" : ""}
               >
-                {type}
+                {typeSort}
               </li>
             ))}
           </ul>

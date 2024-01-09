@@ -1,19 +1,19 @@
 import React, { memo } from "react";
-import { useSelector } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PizzaBlock from "../components/PizzaBlock";
+import { useAppSelector } from "../hooks/redux";
 
 const Pizza = memo(function () {
-  const pizzas = useSelector((state) => state.pizzas.items);
+  const pizzas = useAppSelector((state) => state.pizzas.items);
   const { id } = useParams();
 
-  const pizza = pizzas.find((item) => item.id == id);
+  const pizza = pizzas.find((item) => item.id == Number(id));
 
   return (
     pizzas.length > 0 && (
       <>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <PizzaBlock {...pizza} isTitleClickable={false} />
+          {pizza && <PizzaBlock {...pizza} isTitleClickable={false} />}
         </div>
         <Link to="/" className="button button--outline button--add go-back-btn">
           <svg

@@ -1,18 +1,14 @@
-import React, { useState, useEffect, useContext, memo } from "react";
+import React, { memo } from "react";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/Skeleton";
-import { AppContext } from "../components/App";
-import { useSelector, useDispatch } from "react-redux";
-import Loader from "../components/Loader";
+import { useAppSelector } from "../hooks/redux";
 
 const Home = memo(function () {
-  const pizzas = useSelector((state) => state.pizzas.items);
-  const status = useSelector((state) => state.pizzas.status);
-  const error = useSelector((state) => state.pizzas.error);
-
-  const dispatch = useDispatch();
+  const pizzas = useAppSelector((state) => state.pizzas.items);
+  const status = useAppSelector((state) => state.pizzas.status);
+  // const error = useAppSelector((state) => state.pizzas.error);
 
   return (
     <>
@@ -28,6 +24,7 @@ const Home = memo(function () {
           <h2 className="content__title">Пиццы не найдены</h2>
         ))}
       <div className="content__items">
+        {/* @ts-ignore */}
         {status == "resolved" && status !== "rejected" ? (
           pizzas.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />)
         ) : status == "loading" ? (

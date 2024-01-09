@@ -1,7 +1,8 @@
-import React, { memo, useCallback, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { addItem } from "../store/slices/cartSlice";
 import { Link } from "react-router-dom";
+import { Pizza, Size, Type } from "../types/pizza";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 
 const PizzaBlock = memo(function ({
   id,
@@ -13,47 +14,42 @@ const PizzaBlock = memo(function ({
   category,
   rating,
   isTitleClickable = true,
-}) {
-  // console.log(id,
-  //   imageUrl,
-  //   title,
-  //   types,
-  //   sizes,
-  //   price,
-  //   category,
-  //   rating,
-  //   isTitleClickable=true);
+}: Pizza & { isTitleClickable?: boolean }) {
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const dispatch = useAppDispatch();
 
-  const cartItems = useSelector((state) => state.cart.items);
-  const dispatch = useDispatch();
-
-  const [activeSize, setActiveSize] = useState(0);
+  const [activeSize, setActiveSize] = useState<Size>(0);
   // const [activeType, setActiveType] = useState(0);
 
   // FIX TYPES
-  const [activeType, setActiveType] = useState(types[0]);
+  const [activeType, setActiveType] = useState<Type>(types[0]);
 
   const item = { id, imageUrl, title, price, activeSize, activeType };
 
-  const [ind, qty] = useMemo(() => {
+  const qty: number = useMemo(() => {
     const ind = cartItems.findIndex((item) => item.id == id);
     let qty = 0;
     if (ind != -1) {
       qty = cartItems[ind].totalQty;
     }
-    return [ind, qty];
+    return qty;
   }, [id, cartItems]);
 
-  const changeTypeHandler = useCallback((type) => {
+  const changeTypeHandler = useCallback((type: Type) => {
     setActiveType(type);
   }, []);
 
-  const changeSizeHandler = useCallback((ind) => {
+  const changeSizeHandler = useCallback((ind: Size) => {
     setActiveSize(ind);
   }, []);
 
   const addItemHandler = useCallback(
-    (item) => {
+    (
+      item: Pick<Pizza, "id" | "imageUrl" | "title" | "price"> & {
+        activeSize: Size;
+        activeType: Type;
+      }
+    ) => {
       dispatch(addItem(item));
     },
     [dispatch]
@@ -98,7 +94,7 @@ const PizzaBlock = memo(function ({
         <ul>
           {sizes.map((size, ind) => (
             <li
-              onClick={() => changeSizeHandler(ind)}
+              onClick={() => changeSizeHandler(ind as Size)}
               key={size}
               className={ind == activeSize ? "active" : ""}
             >
