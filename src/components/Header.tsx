@@ -1,6 +1,5 @@
-import React from "react";
 import pizzaLogo from "../assets/img/pizza-logo.svg";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import { useAppSelector } from "../hooks/redux";
 
@@ -10,8 +9,6 @@ function Header() {
   return (
     <div className="header">
       <div className="container">
-        {/* <NavLink to="/" className={setActive} >Главная</NavLink>
-        <NavLink to="/cart" className={setActive} >Корзина</NavLink> */}
         <Link to="/" className="header__logo">
           <img width="38" src={pizzaLogo} alt="Pizza logo" />
           <div>

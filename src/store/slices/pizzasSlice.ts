@@ -45,13 +45,9 @@ export const fetchPizzas = createAsyncThunk<
         const newData = sorted.filter((sortedItem) =>
           searched.some((searchedItem) => sortedItem.id == searchedItem.id)
         );
-        // dispatch(setPizzas(newData));
         return newData;
       });
-    // .finally(() => setLoading(false))
-    // if (!resp.ok) {
-    //   throw new Error('Данные не пришли');
-    // }
+
     const data = await resp;
     return data;
   } catch (error: any) {
@@ -89,12 +85,3 @@ const pizzasSlice = createSlice({
 
 export const { setPizzas } = pizzasSlice.actions;
 export default pizzasSlice.reducer;
-
-// {
-// pizzas: [
-//   {},
-//   {}
-// ]
-// cart: []
-
-// }

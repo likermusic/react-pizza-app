@@ -64,20 +64,14 @@ const cartSlice = createSlice({
         state.items.push(item);
         state.count = state.count + 1;
         state.total = state.total + price;
-
-        // console.log(JSON.stringify(state.items));
       } else {
-        //Когда товар с таким ид уже есть, ищем где в details объект с таким же типом
         const detailsTypeInd = state.items[itemsInd].details.findIndex(
           (el) => el.type == activeType
         );
-        //если нашли эл с таким типом
         if (detailsTypeInd != -1) {
-          // В массиве details ищем в массиве sizes объект с таким же сайзом этого типа
           const typeSizeInd = state.items[itemsInd].details[
             detailsTypeInd
           ].sizes.findIndex((el) => el.size == activeSize);
-          //Если нашли эл такого типа и с таким же сайз
           if (typeSizeInd != -1) {
             state.items[itemsInd].details[detailsTypeInd].sizes[typeSizeInd]
               .qty++;
@@ -85,20 +79,16 @@ const cartSlice = createSlice({
             state.count = state.count + 1;
             state.total = state.total + price;
           } else {
-            //Если нашли эл такого типа но сайза такого еще не было
             const sizesItem: ItemSize = {
               size: activeSize,
               qty: 1,
             };
-            //то в существующий тип доб в массив объект с новым сайзом в кол 1 штука
             state.items[itemsInd].details[detailsTypeInd].sizes.push(sizesItem);
             state.items[itemsInd].totalQty++;
             state.count = state.count + 1;
             state.total = state.total + price;
           }
-          // console.log(JSON.stringify(state.items));
         } else {
-          //если не нашли эл с таким типом тогда доюавляем ее впервые такого типа
           const detailsItem: Detail = {
             type: activeType,
             sizes: [

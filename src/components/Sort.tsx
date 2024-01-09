@@ -21,12 +21,9 @@ function Sort() {
     <div className="sort">
       <div className="sort__label">
         <svg
-          onClick={
-            // () => dispatch(setSort({ type, isUp: !isUp }))
-            useCallback(() => {
-              dispatch(setSort({ type, isUp: !isUp }));
-            }, [dispatch, type, isUp])
-          }
+          onClick={useCallback(() => {
+            dispatch(setSort({ type, isUp: !isUp }));
+          }, [dispatch, type, isUp])}
           className={svgStyles}
           width="10"
           height="6"
@@ -41,7 +38,6 @@ function Sort() {
         </svg>
         <b>Сортировка по:</b>
         <span
-          //onClick={() => setIsOpen(!isOpen)}
           onClick={useCallback(() => {
             setIsOpen(!isOpen);
           }, [isOpen])}

@@ -19,9 +19,7 @@ const PizzaBlock = memo(function ({
   const dispatch = useAppDispatch();
 
   const [activeSize, setActiveSize] = useState<Size>(0);
-  // const [activeType, setActiveType] = useState(0);
 
-  // FIX TYPES
   const [activeType, setActiveType] = useState<Type>(types[0]);
 
   const item = { id, imageUrl, title, price, activeSize, activeType };

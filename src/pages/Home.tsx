@@ -8,7 +8,6 @@ import { useAppSelector } from "../hooks/redux";
 const Home = memo(function () {
   const pizzas = useAppSelector((state) => state.pizzas.items);
   const status = useAppSelector((state) => state.pizzas.status);
-  // const error = useAppSelector((state) => state.pizzas.error);
 
   return (
     <>
